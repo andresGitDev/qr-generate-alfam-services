@@ -54,3 +54,7 @@ Aplicación Create React App (sitio estático), sin variables de entorno requeri
 - Ramas: `main` = producción (deploy automático en cada push). `develop` = trabajo / deploys de preview:
   `git checkout -b develop && git push -u origin develop`. Para publicar, merge a `main`.
 - Opcional: en Settings → Git → Ignored Build Step: `[ "$VERCEL_GIT_COMMIT_REF" != "main" ]` para que solo `main` despliegue.
+
+## Metadata de versión
+
+`scripts/generate-metadata.js` genera `src/metadata.json` (no se versiona) en cada `npm start` y `npm run build` (hooks `prestart`/`prebuild`). Incluye versión de `package.json`, commit, rama, entorno (`VERCEL_ENV`) y fecha de compilación. Como Vercel ejecuta `npm run build` en cada deploy, cada despliegue en `main` queda con su propio commit/fecha, que se muestra bajo el título. Para subir la versión visible, cambiar `version` en `package.json`.

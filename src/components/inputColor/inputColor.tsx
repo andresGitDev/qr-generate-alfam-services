@@ -13,8 +13,7 @@ const InputColor:React.FC<any> = ({name,onChange}) => {
 
     return (
         <>
-            <label htmlFor={name} className='font-semibold text-md'>Color</label>
-            <div className="flex px-2">
+            <div className="flex items-center">
                 <div 
                     onClick={() => setColorPicker(!colorPicker)}
                     style={{
