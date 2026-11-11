@@ -44,3 +44,13 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Despliegue en Vercel
+
+Aplicación Create React App (sitio estático), sin variables de entorno requeridas.
+
+- Configuración: `vercel.json` (preset `create-react-app`, salida `build`, rewrite SPA a `index.html`) y `.vercelignore`.
+- Importar: vercel.com/new → Continue with GitHub → repo `qr-generate-alfam-services` → Application Preset `Create React App`, Root Directory `./` → Deploy.
+- Ramas: `main` = producción (deploy automático en cada push). `develop` = trabajo / deploys de preview:
+  `git checkout -b develop && git push -u origin develop`. Para publicar, merge a `main`.
+- Opcional: en Settings → Git → Ignored Build Step: `[ "$VERCEL_GIT_COMMIT_REF" != "main" ]` para que solo `main` despliegue.
