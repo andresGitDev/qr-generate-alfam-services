@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# QR Generate - ALFAM Services
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Generador de códigos QR a partir de una **URL** o un **texto**, con interfaz estilo Swagger.
+
+- **Producción:** https://qr-generate-alfam-services.vercel.app
+- **Repositorio:** https://github.com/andresGitDev/qr-generate-alfam-services
+- **Ramas:** `main` (producción, despliegue automático) y `develop` (trabajo / previews)
+
+Proyecto creado con [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
@@ -50,7 +56,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 Aplicación Create React App (sitio estático), sin variables de entorno requeridas.
 
 - Configuración: `vercel.json` (preset `create-react-app`, salida `build`, rewrite SPA a `index.html`) y `.vercelignore`.
-- Importar: vercel.com/new → Continue with GitHub → repo `qr-generate-alfam-services` → Application Preset `Create React App`, Root Directory `./` → Deploy.
+- Producción: https://qr-generate-alfam-services.vercel.app (proyecto `qr-generate-alfam-services` en Vercel, preset `Create React App`, Root Directory `./`, sin variables de entorno).
 - Ramas: `main` = producción (deploy automático en cada push). `develop` = trabajo / deploys de preview:
   `git checkout -b develop && git push -u origin develop`. Para publicar, merge a `main`.
 - Opcional: en Settings → Git → Ignored Build Step: `[ "$VERCEL_GIT_COMMIT_REF" != "main" ]` para que solo `main` despliegue.
