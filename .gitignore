@@ -26,4 +26,4 @@ yarn-error.log*
 .vercel
 
 # generado en cada build/start
-/src/metadata.json
+/src/build-info.json

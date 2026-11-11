@@ -2,9 +2,13 @@ import React from 'react'
 import QrCode from 'react-qr-code'
 import InputColor from './components/inputColor/inputColor'
 import InputForm from './components/inputForm/inputForm'
-import metadata from './metadata.json'
+import metadata from './build-info.json'
 
 const TITLE = 'QR Generate - ALFAM Services'
+
+// buildTag se guarda en UTC (ISO 8601); se muestra en hora de Argentina
+const formatBuildTag = (tag: string) =>
+  new Date(tag).toLocaleString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour12: false }) + ' (ART)'
 
 const App: React.FC = () => {
   const [content, setContent] = React.useState('')
@@ -52,11 +56,11 @@ const App: React.FC = () => {
           </div>
           <p
             className="mt-1 text-xs text-[#6b7280]"
-            title={`Compilado: ${metadata.builtAt}`}
+            title={`buildTag: ${metadata.buildTag}`}
             data-testid="build-info"
           >
             Versión {metadata.version} · {metadata.branch}@{metadata.commit} · {metadata.environment} ·{' '}
-            {new Date(metadata.builtAt).toLocaleString()}
+            {formatBuildTag(metadata.buildTag)}
           </p>
           <p className="mt-3 text-sm">
             Genera un código QR a partir de una <b>URL</b> o un <b>texto</b>.

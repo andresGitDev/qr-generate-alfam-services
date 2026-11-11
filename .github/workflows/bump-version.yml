@@ -1,0 +1,36 @@
+name: Bump version
+
+# En cada push a main incrementa buildRevision en metadata.json y lo commitea.
+# Vercel despliega ese commit (ver ignoreCommand en vercel.json), por lo que
+# cada despliegue de main sale con la versión nueva.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bump-version
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    # evita el bucle: no reaccionar al commit de versión
+    if: ${{ !startsWith(github.event.head_commit.message, 'chore(version)') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Incrementar versión
+        run: node scripts/bump-version.js
+      - name: Commit y push
+        run: |
+          VERSION=$(node -e "const m=require('./metadata.json');console.log(m.buildMajor+'.'+m.buildMinor+'.'+m.buildRevision)")
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add metadata.json
+          git commit -m "chore(version): v${VERSION}"
+          git push

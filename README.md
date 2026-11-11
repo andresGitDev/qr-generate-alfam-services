@@ -57,4 +57,16 @@ Aplicación Create React App (sitio estático), sin variables de entorno requeri
 
 ## Metadata de versión
 
-`scripts/generate-metadata.js` genera `src/metadata.json` (no se versiona) en cada `npm start` y `npm run build` (hooks `prestart`/`prebuild`). Incluye versión de `package.json`, commit, rama, entorno (`VERCEL_ENV`) y fecha de compilación. Como Vercel ejecuta `npm run build` en cada deploy, cada despliegue en `main` queda con su propio commit/fecha, que se muestra bajo el título. Para subir la versión visible, cambiar `version` en `package.json`.
+La versión vive en `metadata.json` (raíz):
+
+```json
+{ "buildMajor": 1, "buildMinor": 0, "buildRevision": -1, "buildTag": "2026-11-11T21:54:51.000Z" }
+```
+
+- Versión = `buildMajor.buildMinor.buildRevision`. Con `buildRevision: -1` aún no hay versión publicada (se muestra `1.0.0-pre`); el primer push a `main` la deja en `1.0.0`.
+- `buildTag` es la fecha de compilación en UTC (ISO 8601); la UI la muestra en hora de Argentina (ART).
+- En cada push a `main`, el workflow `.github/workflows/bump-version.yml` ejecuta `scripts/bump-version.js` (suma 1 a `buildRevision`, actualiza `buildTag`) y commitea `chore(version): vX.Y.Z`.
+- `vercel.json` (`ignoreCommand`) omite el deploy del commit original en `main` y despliega solo el commit de versión, así cada deploy de producción sale con la versión nueva. Otras ramas despliegan normal (preview).
+- `scripts/generate-metadata.js` (prestart/prebuild) lee `metadata.json` y genera `src/build-info.json` (no versionado) con la versión, commit, rama y entorno que muestra la UI.
+- Para subir major/minor, editá `buildMajor`/`buildMinor` y poné `buildRevision` en `-1`.
+- Bump manual local: `npm run version:bump`.

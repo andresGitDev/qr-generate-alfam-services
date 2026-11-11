@@ -28,6 +28,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "version:bump": "node scripts/bump-version.js",
     "prestart": "node scripts/generate-metadata.js",
     "start": "react-scripts start",
     "prebuild": "node scripts/generate-metadata.js",

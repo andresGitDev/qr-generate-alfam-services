@@ -3,5 +3,6 @@
   "framework": "create-react-app",
   "buildCommand": "npm run build",
   "outputDirectory": "build",
+  "ignoreCommand": "[ \"$VERCEL_GIT_COMMIT_REF\" = \"main\" ] && ! git log -1 --pretty=%s | grep -q '^chore(version)'",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
