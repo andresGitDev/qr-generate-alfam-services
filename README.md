@@ -76,3 +76,23 @@ La versión vive en `metadata.json` (raíz):
 - `scripts/generate-metadata.js` (prestart/prebuild) lee `metadata.json` y genera `src/build-info.json` (no versionado) con la versión, commit, rama y entorno que muestra la UI.
 - Para subir major/minor, editá `buildMajor`/`buildMinor` y poné `buildRevision` en `-1`.
 - Bump manual local: `npm run version:bump`.
+
+## API: generar QR (`GET /api/qr`)
+
+Función serverless de Vercel (`api/qr.js`, lógica en `lib/qr.js`) que devuelve la imagen del QR.
+
+| Parámetro | Obligatorio | Por defecto | Reglas |
+|---|---|---|---|
+| `content` | sí | — | texto o URL, máximo 1000 caracteres |
+| `format` | no | `svg` | `svg` o `png` |
+| `size` | no | 256 | entero entre 64 y 1024 (px) |
+| `margin` | no | 2 | entero entre 0 y 10 |
+| `level` | no | `M` | corrección de errores `L`, `M`, `Q`, `H` |
+| `color` / `background` | no | `000000` / `ffffff` | hexadecimal de 3 o 6 dígitos |
+
+- `200`: imagen con su `Content-Type` (`image/svg+xml` o `image/png`) y cache de 1 día; CORS abierto.
+- `400`/`405`/`500`: contrato de error JSON único (`timestamp, status, code, message, path, traceId, errors`) y cabecera `X-Trace-Id`.
+- El rewrite SPA de `vercel.json` excluye `/api/`.
+- Tests: `npm run test:api` (runner nativo de Node, sin dependencias nuevas).
+
+Ejemplo: `/api/qr?content=hola&format=png&size=300&color=1a1a1a`
