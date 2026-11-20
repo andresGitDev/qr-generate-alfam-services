@@ -96,3 +96,9 @@ Función serverless de Vercel (`api/qr.js`, lógica en `lib/qr.js`) que devuelve
 - Tests: `npm run test:api` (runner nativo de Node, sin dependencias nuevas).
 
 Ejemplo: `/api/qr?content=hola&format=png&size=300&color=1a1a1a`
+
+### Documentación interactiva (Swagger)
+
+- `/docs`: Swagger UI (CDN) para probar `GET /api/qr` desde el navegador.
+- `/openapi.json`: especificación OpenAPI 3.0 (`lib/openapi.js`, servida por `api/openapi.js`; `api/docs.js` sirve la UI).
+- `vercel.json` reescribe `/docs` y `/openapi.json` a esas funciones antes del rewrite SPA.

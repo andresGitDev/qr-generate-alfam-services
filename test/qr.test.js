@@ -54,3 +54,17 @@ test('metodo distinto de GET da 405 y OPTIONS 204', async () => {
   assert.equal((await call('/api/qr?content=a', 'POST')).status, 405);
   assert.equal((await call('/api/qr', 'OPTIONS')).status, 204);
 });
+
+test('el OpenAPI documenta /api/qr y /docs sirve Swagger UI', async () => {
+  const { sendOpenapi, sendDocs } = require('../lib/openapi');
+  const grab = (fn) => new Promise((resolve) => {
+    const headers = {};
+    const res = { statusCode: 200, setHeader: (k, v) => { headers[k.toLowerCase()] = v; }, end: (body) => resolve({ status: res.statusCode, headers, body }) };
+    fn({}, res);
+  });
+  const o = await grab(sendOpenapi);
+  assert.equal(JSON.parse(o.body).paths['/api/qr'].get.parameters[0].name, 'content');
+  const d = await grab(sendDocs);
+  assert.match(d.headers['content-type'], /text\/html/);
+  assert.match(d.body, /swagger-ui/);
+});
